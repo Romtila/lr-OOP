@@ -46,9 +46,10 @@
     <Compile Include="Armor.cs" />
     <Compile Include="Effect.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="PlayerOutfitException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StrDexInt.cs" />
+    <Compile Include="Requirements.cs" />
     <Compile Include="TargetObject.cs" />
     <Compile Include="Weapon.cs" />
     <Compile Include="Wizard.cs" />

@@ -7,11 +7,8 @@ namespace Laba2
 {
     abstract class TargetObject
     {
-        protected double life;
-        abstract public double Life
-        {
-            get { return life; }
-            set { life = value; }
-        }
+        protected int life;
+        public abstract int Life { get; set; }
+        
     }
 }

@@ -5,24 +5,29 @@ using System.Text;
 
 namespace Laba2
 {
-    class Armor : StrDexInt
+    class Armor 
     {
-        protected double defense;
-        protected string armortype;
+        public int Defense { get; set; }
+        public string ArmorType { get; set; }
+        public Requirements Requirements { get; set; }
 
-        public double Defense
+        public enum ArmorDictionary { lats, jacket, helmet, pants, boots, shorts, cape }
+
+        public Armor(int Defense, string ArmorType, Requirements Requirements)
         {
-            get { return defense; }
-            set { defense = value; }
-        }
-        public string ArmorType
-        {
-            get { return armortype; }
-            set { armortype = value; }
-        }
-        protected override double Requirements
-        {
-            get { return base.Requirements; }
+            this.Defense = Defense;
+            foreach (string name in Enum.GetValues(typeof(ArmorDictionary)))
+            {
+                if (ArmorType == (string)name)
+                {
+                    this.ArmorType = ArmorType;
+                }
+                else
+                {
+                    this.ArmorType = "cape";
+                }
+            }
+            this.Requirements = Requirements;
         }
     }
 }

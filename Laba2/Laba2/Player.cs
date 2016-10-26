@@ -7,68 +7,83 @@ namespace Laba2
 {
     abstract class Player : TargetObject
     {
-        protected double strange;
-        protected double dexterity;
-        protected double intelligence;
+        protected int strange;
+        protected int dexterity;
+        protected int intelligence;
+        protected int effects;
         protected int level;
-        protected string[] effects;
+        protected Weapon weapon;
+        protected Armor armor;
 
-        public override double Life
+        public override int Life 
         {
             get { return life; }
             set { life = value; }
-        }
-        abstract public double Strange
+        }        
+
+        public int Strange 
         {
             get { return strange; }
             set { strange = value; }
         }
-        abstract public double Dexterity
+        public int Dexterity 
         {
             get { return dexterity; }
             set { dexterity = value; }
         }
-        abstract public double Intelligence
+        public int Intelligence 
         {
             get { return intelligence; }
             set { intelligence = value; }
         }
-        abstract public int Level
-        {
-            get { return level; }
-            set { level = value; }
+        public int Effects 
+        { 
+            get; 
+            protected set; 
         }
-        abstract public string Effects
-        {
-            public get 
-            {
-                for (int i; i<effects.Length; i++)
-                {
-                    return effects[i];
-                }
-            }
-            private set { effects = value; }
+        public int Level 
+        { 
+            get; 
+            protected set; 
         }
-
-        public string this[int index]
+        public Weapon Weapon 
         {
-            get { return effects[index]; }
-            private set { effects[index] = value; }
+            get { return weapon; }
+            set { weapon = value; }
+        }
+        public Armor Armor 
+        {
+            get { return armor; }
+            set { armor = value; }
         }
 
         public Player()
         {
-            life = 100;
-            strange = 10;
-            dexterity = 10;
-            intelligence = 10;
-            level = 1;
-            effects = null;
+            Life = 100;
+            Strange = 10;
+            Dexterity = 10;
+            Intelligence = 10;
+            Effects = 0;
+            Level = 1;
+            Armor = new Armor(20, "cape", new Requirements(1, 1, 1));
+            Weapon = new Weapon(10, "staff", new Requirements(1, 1, 1));
         }
 
-        public abstract TargetObject Attack();
-        public abstract Weapon EquipWeapon();
-        public abstract Armor EquipOutfit();
-        public abstract Effect AddEffect();
+        public Player(int Life, int Strange, int Dexterity, int Intelligence, int Effects, int Level, Armor Armor, Weapon Weapon)
+        {
+            this.Life = Life;
+            this.Strange = Strange;
+            this.Dexterity = Dexterity;
+            this.Intelligence = Intelligence;
+            this.Effects = Effects;
+            this.Level = Level;
+            this.Armor = Armor;
+            this.Weapon = Weapon;
+        }
+
+        public abstract void Attack(TargetObject targetObject);
+        public abstract void EquipWeapon(Weapon weapon);
+        public abstract void EquipOutfit(Armor armor);
+        public abstract void AddEffect(Effect effect);
     }
 }

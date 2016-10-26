@@ -7,79 +7,100 @@ namespace Laba2
 {
     class Wizard : Player
     {
-        protected double mana;
+        protected int mana;
 
-        public double Mana
+        public int Mana 
         {
             get { return mana; }
             set { mana = value; }
         }
 
-        public Wizard() : base()
+        public Wizard()
         {
-            base.intelligence = 20;
-            mana = 100;
+            Life = 100;
+            Strange = 10;
+            Dexterity = 10;
+            Intelligence = 15;
         }
 
-
-        public override double Intelligence
+        public Wizard(int life, int strange, int dexterity, int intelligence, int mana)
         {
-            get { return this.intelligence; }
-            set { this.intelligence = value; }
-        }
-        public override double Strange
-        {
-            get { return this.strange; }
-            set { this.strange = value; }
-        }
-        public override double Dexterity
-        {
-            get { return this.dexterity; }
-            set { this.dexterity = value; }
-        }
-        public override int Level
-        {
-            get { return this.level; }
-            set { this.level = value; }
-        }
-        public override double Life
-        {
-            get { return this.Life; }
-            set { this.Life = value; }
-        }
-        public override string Effects
-        {
-            get { throw new NotImplementedException(); }
-        }
-        
-        public override Effect AddEffect()
-        {
-            throw new NotImplementedException();
-        }
-        public override TargetObject Attack()
-        {
-            throw new NotImplementedException();
-        }
-        public override Armor EquipOutfit()
-        {
-            throw new NotImplementedException();
-        }
-        public override Weapon EquipWeapon()
-        {
-            throw new NotImplementedException();
+            this.life = life;
+            this.strange = strange;
+            this.dexterity = dexterity;
+            this.intelligence = intelligence;
+            this.mana = mana;
         }
 
         public void LevelUp()
         {
-            level++;
-            strange++;
-            dexterity++;
-            intelligence = intelligence + 2;
+            level += 1;
+            strange += 5;
+            dexterity += 5;
+            intelligence += 5;
         }
 
-        public double ChanceToDodgeAttack()
+        protected int AttackUp
         {
-            return dexterity * 0.1;
+            get { return Intelligence * 5; }
+        }
+
+        public int ChanceToDodgeAttack(int attack)
+        {
+            return Dexterity / attack / 100;
+        }
+
+        public bool CanAttack(Effect effect)
+        {
+            bool status = true;
+            foreach (string name in Enum.GetValues(typeof(Effect.EffectDictionary)))
+            {
+                if (effect.EffectType == (string)name)
+                {
+                    status = false;
+                }
+            }
+            return status;
+        }
+
+        public override void Attack(TargetObject targetObject, Effect effect, Weapon weapon)
+        {
+            if (CanAttack(effect))
+            {
+                targetObject.Life = targetObject.Life - weapon.Damage;
+            }
+        }
+
+        public override void EquipWeapon(Weapon weapon)
+        {
+            if (weapon.Requirements != new Requirements(Strange, Dexterity, Intelligence))
+            {
+                new PlayerOutfitException("low performance");
+            }
+            if (weapon.WeaponType != "staff")
+            {
+                new PlayerOutfitException("Type of weapon is wrong");
+            }
+        }
+
+        public override void EquipOutfit(Armor armor)
+        {
+            if (armor.Requirements != new Requirements(Strange, Dexterity, Intelligence))
+            {
+                new PlayerOutfitException("low performance");
+            }
+            if (armor.ArmorType != "cape")
+            {
+                new PlayerOutfitException("Type of armor is wrong");
+            }
+        }
+
+        public override void AddEffect(Effect effect)
+        {
+            if (effect.Duration == -1)
+            {
+                effect = new Effect(effect.EffectType, effect.Duration);
+            }
         }
     }
 }

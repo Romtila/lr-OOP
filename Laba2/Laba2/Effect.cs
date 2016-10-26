@@ -5,25 +5,71 @@ using System.Text;
 
 namespace Laba2
 {
-    class Effect : IEquatable<Effect>
+    class Effect : IEquatable<Object>
     {
         protected string effecttype;
+        public enum EffectDictionary { оглушение, яд, укус, слюна, слизь, паутина, заморозка }
         protected double duration;
-        protected bool alltime;
 
-        public bool AllTime
+        public string EffectType 
         {
-            get { return alltime; }
-            set { alltime = value; }
+            get { return effecttype; }
+            set { effecttype = value; }
+        }
+        public double Duration 
+        {
+            get { return duration; }
+            set { duration = value; }
         }
 
-        public override bool Equals(object obj)
+        public Effect(string effecttype, double duration)
         {
-            return base.Equals(obj);
+            this.effecttype = effecttype;
+            this.duration = duration;
         }
-        public override int GetHashCode()
+
+        public bool EffectDo
         {
-            return base.GetHashCode();
+            get
+            {
+                if (duration == -1)
+                { return true; }
+                else
+                { return false; }
+            }
+        }
+
+        public bool Equals(Effect obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            Effect p = obj as Effect;
+            if ((Object)p == null)
+            {
+                return false;
+            }
+            return (effecttype == p.effecttype) && (duration == p.duration);
+        }
+
+        public int GetHashCode()
+        {
+            return effecttype.GetHashCode();
+        }
+
+        public static bool operator ==(Effect eff1, Effect eff2)
+        {
+            if ((eff1.effecttype == eff2.effecttype) && (eff1.duration == eff2.duration) && (eff1.EffectDo == eff2.EffectDo))
+                return true;
+            return false;
+        }
+
+        public static bool operator !=(Effect eff1, Effect eff2)
+        {
+            if ((eff1.effecttype != eff2.effecttype) || (eff1.duration != eff2.duration) || (eff1.EffectDo != eff2.EffectDo))
+                return true;
+            return false;
         }
     }
 }
