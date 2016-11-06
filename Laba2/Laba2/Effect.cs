@@ -5,11 +5,22 @@ using System.Text;
 
 namespace Laba2
 {
-    class Effect : IEquatable<Object>
+    class Effect : IEquatable<Effect>
     {
         protected string effecttype;
         public enum EffectDictionary { оглушение, яд, укус, слюна, слизь, паутина, заморозка }
         protected double duration;
+
+        public Effect(string effecttype, double duration)
+        {
+            this.effecttype = effecttype;
+            this.duration = duration;
+        }
+        public Effect()
+        {
+
+            duration = 1;
+        }
 
         public string EffectType 
         {
@@ -20,19 +31,13 @@ namespace Laba2
         {
             get { return duration; }
             set { duration = value; }
-        }
-
-        public Effect(string effecttype, double duration)
-        {
-            this.effecttype = effecttype;
-            this.duration = duration;
-        }
+        }        
 
         public bool EffectDo
         {
             get
             {
-                if (duration == -1)
+                if (duration > 0)
                 { return true; }
                 else
                 { return false; }
@@ -41,33 +46,27 @@ namespace Laba2
 
         public bool Equals(Effect obj)
         {
-            if (obj == null)
-            {
-                return false;
-            }
-            Effect p = obj as Effect;
-            if ((Object)p == null)
-            {
-                return false;
-            }
-            return (effecttype == p.effecttype) && (duration == p.duration);
+            if (obj == null || effecttype != obj.effecttype)
+            { return true; }
+            else
+            { return false; }
         }
 
         public int GetHashCode()
         {
-            return effecttype.GetHashCode();
+            return base.GetHashCode();
         }
 
         public static bool operator ==(Effect eff1, Effect eff2)
         {
-            if ((eff1.effecttype == eff2.effecttype) && (eff1.duration == eff2.duration) && (eff1.EffectDo == eff2.EffectDo))
+            if ((eff1.effecttype == eff2.effecttype) && (eff1.duration == eff2.duration))
                 return true;
             return false;
         }
 
         public static bool operator !=(Effect eff1, Effect eff2)
         {
-            if ((eff1.effecttype != eff2.effecttype) || (eff1.duration != eff2.duration) || (eff1.EffectDo != eff2.EffectDo))
+            if ((eff1.effecttype != eff2.effecttype) || (eff1.duration != eff2.duration))
                 return true;
             return false;
         }

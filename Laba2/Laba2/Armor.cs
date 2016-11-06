@@ -7,15 +7,18 @@ namespace Laba2
 {
     class Armor 
     {
-        public int Defense { get; set; }
+        protected int defense;
+
+        
         public string ArmorType { get; set; }
         public Requirements Requirements { get; set; }
 
         public enum ArmorDictionary { lats, jacket, helmet, pants, boots, shorts, cape }
 
+
         public Armor(int Defense, string ArmorType, Requirements Requirements)
         {
-            this.Defense = Defense;
+            this.defense = defense;
             foreach (string name in Enum.GetValues(typeof(ArmorDictionary)))
             {
                 if (ArmorType == (string)name)
